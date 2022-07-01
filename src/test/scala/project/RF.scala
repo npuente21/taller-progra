@@ -4,7 +4,7 @@ import javax.jms._
 
 import org.apache.activemq.ActiveMQConnectionFactory
 
-import project.PositionMsg
+import project.Msg.PositionMsg
 
 
 case object RF {
@@ -20,19 +20,13 @@ case object RF {
 
     val productor = session.createProducer(cola)
     val ObjMessage = new PositionMsg(nombre="RF1", x=0, y=8)
-try {
-  val message = session.createObjectMessage(ObjMessage)
-  productor.send(message)
-  println("Mensaje enviado", ObjMessage)
-  connection.close()
-}catch {
-  case x: JMSException =>{
-    println(x.getMessage)
-  }
+    val message = session.createObjectMessage(ObjMessage)
+    productor.send(message)
+    println("Mensaje enviado")
+    connection.close()
 }
 
 
     //var thread = new MainThread(uuid)
     //thread.start()
-  }
 }

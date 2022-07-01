@@ -2,7 +2,7 @@ package project
 
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
-import project.PositionMsg
+import project.Msg._
 
 object ApiPosicionListener {
   val activeMqUrl: String = "tcp://localhost:61616"
@@ -20,19 +20,25 @@ object ApiPosicionListener {
     val listener = new MessageListener {
       def onMessage(message: Message): Unit ={
         message match {
-          case text: ObjectMessage => {
-            val RF_position = text.getObject.asInstanceOf[PositionMsg]
+          case text: ObjectMessage => {  //cada mensaje que recibe es un objeto
+            val position = text.getObject.asInstanceOf[PositionMsg]  //recibo el msg de RF
 
-              val x = RF_position.x
-              val y = RF_position.y
+            //aquí falta la lógica del Monitor
+              val x = position.x
+              val y = position.y
+
+
               var txtMessage = "Fuera"
               if(x <8 && y<8){
                 txtMessage = "Dentro :)"
               }
-              val productor = session.createProducer(cola)
-              val textMessage = session.createTextMessage(txtMessage)
+              val cola_Relay = session.createQueue("mqHost2")
+              val productor = session.createProducer(cola_Relay)
+              val response = new ResponseMsg(user=position.nombre, status = txtMessage)
+
+              val textMessage = session.createObjectMessage(response)
               productor.send(textMessage)
-              println(s"Mensaje recibido por parte de : " + RF_position.nombre)
+              println(s"Mensaje recibido por parte de : " + position.nombre)
               println(s"Mensaje procesado: " + txtMessage)
           }
           case _ => {

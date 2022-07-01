@@ -1,9 +1,9 @@
 package project
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
-import project.PositionMsg
+import project.Msg.PositionMsg
 
-case object SensorPosicion{
+case object PositionBeacon{
   val activeMqUrl: String = "tcp://localhost:61616"
   val r = new scala.util.Random(100)
 
@@ -11,7 +11,7 @@ case object SensorPosicion{
     val cFactory = new ActiveMQConnectionFactory(activeMqUrl)
     val connection = cFactory.createConnection()
     connection.start()
-    val user = "mqSensor1"
+    val user = "Paciente 1"
     val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
     val cola = session.createQueue("mqHost1")
 

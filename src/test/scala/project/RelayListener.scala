@@ -2,7 +2,7 @@ package project
 
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
-import project.PositionMsg
+import project.Msg.ResponseMsg
 
 object RelayListener {
   val activeMqUrl: String = "tcp://localhost:61616"
@@ -20,8 +20,9 @@ object RelayListener {
     val listener = new MessageListener {
       def onMessage(message: Message): Unit ={
         message match {
-          case text: ObjectMessage => {
-
+          case msg: ObjectMessage => {
+            val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
+            println(StatusMsg.user+" está "+StatusMsg.status)
           }
           case _ => {
             throw new Exception("Error desconocido")
