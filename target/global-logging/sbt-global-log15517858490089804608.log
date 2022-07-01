@@ -1,0 +1,24 @@
+[debug] > Exec(test, None, None)
+[debug] Evaluating tasks: Test / test
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] compiling 1 Scala source to C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\target\scala-2.13\test-classes ...
+[error] C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\src\test\scala\project\ApiPosicionListener.scala:4:12: object apache is not a member of package org
+[error] import org.apache.activemq.ActiveMQConnectionFactory
+[error]            ^
+[error] C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\src\test\scala\project\ApiPosicionListener.scala:10:24: not found: type ActiveMQConnectionFactory
+[error]     val cFactory = new ActiveMQConnectionFactory(activeMqUrl)
+[error]                        ^
+[error] C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\src\test\scala\project\ApiPosicionListener.scala:19:24: not found: type MessageListener
+[error]     val listener = new MessageListener {
+[error]                        ^
+[error] C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\src\test\scala\project\ApiPosicionListener.scala:20:30: not found: type Message
+[error]       def onMessage(message: Message): Unit ={
+[error]                              ^
+[error] C:\Users\Nicolas Puente\Documents\La U\2022-1\Taller de Programación\Listener Position\src\test\scala\project\ApiPosicionListener.scala:22:22: not found: type TextMessage
+[error]           case text: TextMessage => {
+[error]                      ^
+[error] 5 errors found
+[debug] Forcing garbage collection...
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 2 s, completed 28-06-2022 14:50:44
+[debug] > Exec(idea-shell, None, None)
