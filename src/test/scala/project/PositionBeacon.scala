@@ -19,14 +19,14 @@ case object PositionBeacon{
 
     var x =0
     while(x<12){
-      val r1 = r.nextInt(11)
-      val r2 = r.nextInt(11)
+      val r1 = r.nextInt(15)
+      val r2 = r.nextInt(15)
 
       val Position = new PositionMsg(nombre = user, x =r1, y=r2)
 
       val ObjectMessage = session.createObjectMessage(Position)
       productor.send(ObjectMessage)
-      println("Mensaje enviado")
+      println(s"Mensaje enviado, la posición del pacientes es: ($r1, $r2)")
       x+=1
     }
     connection.close()

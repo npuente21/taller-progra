@@ -8,7 +8,7 @@ object Msg{
                      var y:Int) extends Serializable{
     def imprimir(): Unit ={
       println(s"$nombre, $x, $y")
-    }
+  }
   }
 
   class ResponseMsg (var user: String, var status: String) extends Serializable

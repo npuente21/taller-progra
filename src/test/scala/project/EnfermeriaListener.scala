@@ -2,9 +2,9 @@ package project
 
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
-import project.Msg.ResponseMsg
+import project.Msg._
 
-object RelayListener {
+object EnfermeriaListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {
     val cFactory = new ActiveMQConnectionFactory(activeMqUrl)
@@ -13,7 +13,7 @@ object RelayListener {
     connection.start()
 
     val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-    val cola = session.createQueue("mqHost2")
+    val cola = session.createQueue("mqHost3")
 
     val consumidor = session.createConsumer(cola)
 
@@ -22,11 +22,7 @@ object RelayListener {
         message match {
           case msg: ObjectMessage => {
             val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
-            println("Mensaje redirigido")
-            val cola_end = session.createQueue("mqHost3")
-            val producer = session.createProducer(cola_end)
-            val ObjMessage = session.createObjectMessage(StatusMsg)
-            producer.send(ObjMessage)
+            println(s"Mensaje recibido en  Enfermeria, el paciente ${StatusMsg.user} se encuentra ${StatusMsg.status} del área delimitada")
           }
           case _ => {
             throw new Exception("Error desconocido")

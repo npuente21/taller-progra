@@ -17,12 +17,13 @@ case object RF {
     connection.start()
     val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
     val cola = session.createQueue("mqHost1")
-
+    val x = 0
+    val y =8
     val productor = session.createProducer(cola)
-    val ObjMessage = new PositionMsg(nombre="RF1", x=0, y=8)
+    val ObjMessage = new PositionMsg(nombre="RF1", x, y)
     val message = session.createObjectMessage(ObjMessage)
     productor.send(message)
-    println("Mensaje enviado")
+    println(s"Mensaje enviado, el centro de la circunferencia es el ($x, $y)")
     connection.close()
 }
 

@@ -16,7 +16,8 @@ object ApiPosicionListener {
     val cola = session.createQueue("mqHost1")
 
     val consumidor = session.createConsumer(cola)
-
+    var limit_x = 0
+    var limit_y=0
     val listener = new MessageListener {
       def onMessage(message: Message): Unit ={
         message match {
@@ -26,21 +27,27 @@ object ApiPosicionListener {
             //aquí falta la lógica del Monitor
               val x = position.x
               val y = position.y
-
-
-              var txtMessage = "Fuera"
-              if(x <8 && y<8){
-                txtMessage = "Dentro :)"
+              val radio =4
+              if(position.nombre == "RF1"){
+                limit_x = x+radio
+                limit_y = y+radio
               }
-              val cola_Relay = session.createQueue("mqHost2")
-              val productor = session.createProducer(cola_Relay)
-              val response = new ResponseMsg(user=position.nombre, status = txtMessage)
-
-              val textMessage = session.createObjectMessage(response)
-              productor.send(textMessage)
+              else{
+                var txtMessage = "Fuera"
+                if(x <= limit_x && y<=limit_y){
+                  txtMessage = "Dentro :)"
+                }
+                val cola_Relay = session.createQueue("mqHost2")
+                val productor = session.createProducer(cola_Relay)
+                val response = new ResponseMsg(user=position.nombre, status = txtMessage)
+                val ObjMessage = session.createObjectMessage(response)
+                productor.send(ObjMessage)
+              }
               println(s"Mensaje recibido por parte de : " + position.nombre)
-              println(s"Mensaje procesado: " + txtMessage)
+            println(s"Los límites son ($limit_x, $limit_y)")
           }
+
+
           case _ => {
             throw new Exception("Error desconocido")
           }
