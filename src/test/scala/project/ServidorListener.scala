@@ -1,10 +1,11 @@
 package project
 
-import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg._
 
-object EnfermeriaListener {
+import javax.jms._
+
+object ServidorListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {
     val cFactory = new ActiveMQConnectionFactory(activeMqUrl)
@@ -13,7 +14,7 @@ object EnfermeriaListener {
     connection.start()
 
     val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-    val cola = session.createQueue("mqHost3")
+    val cola = session.createQueue("mqHost4")
 
     val consumidor = session.createConsumer(cola)
 
@@ -22,7 +23,7 @@ object EnfermeriaListener {
         message match {
           case msg: ObjectMessage => {
             val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
-            println(s"Mensaje recibido en Enfermeria, el paciente ${StatusMsg.user} se encuentra ${StatusMsg.status} del área delimitada")
+            println(s"Mensaje recibido en el Servidor, el paciente ${StatusMsg.user} se encuentra ${StatusMsg.status} del área delimitada")
           }
           case _ => {
             throw new Exception("Error desconocido")

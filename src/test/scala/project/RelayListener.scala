@@ -23,10 +23,16 @@ object RelayListener {
           case msg: ObjectMessage => {
             val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
             println("Mensaje redirigido")
-            val cola_end = session.createQueue("mqHost3")
-            val producer = session.createProducer(cola_end)
-            val ObjMessage = session.createObjectMessage(StatusMsg)
-            producer.send(ObjMessage)
+            var lista:List[String] = List ("mqHost3", "mqHost4", "mqHost5")
+            lista.foreach(
+              queue =>{
+                val cola_enf = session.createQueue(queue)
+                val producer = session.createProducer(cola_enf)
+                val ObjMessage = session.createObjectMessage(StatusMsg)
+                producer.send(ObjMessage)
+              }
+            )
+
           }
           case _ => {
             throw new Exception("Error desconocido")
