@@ -2,8 +2,10 @@ package project
 
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg._
-
 import javax.jms._
+
+//Este componente actua como el servidor del hospital, el cual es el encargado de mantener
+//la persistencia de las "escapadas" del paciente.
 
 object ServidorListener {
   val activeMqUrl: String = "tcp://localhost:61616"

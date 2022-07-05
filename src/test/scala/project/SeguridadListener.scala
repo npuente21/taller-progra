@@ -5,6 +5,10 @@ import project.Msg._
 
 import javax.jms._
 
+//Este componente actua como la estación de seguridad del hospital, la cual actuaría acorde a la
+//información recibida.
+
+
 object SeguridadListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {

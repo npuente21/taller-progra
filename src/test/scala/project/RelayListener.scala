@@ -4,6 +4,9 @@ import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg.ResponseMsg
 
+//Este componente tiene como funcionalidad recibir el mensaje proporcionado por el monitor y
+//Redistribuirlo a las distintas áreas del hospital
+
 object RelayListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {

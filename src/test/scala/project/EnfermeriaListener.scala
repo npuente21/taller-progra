@@ -4,6 +4,9 @@ import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg._
 
+//Este componente actua como la estación de enfermeria del hospital, la cual actuaría acorde a la
+//información recibida.
+
 object EnfermeriaListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {

@@ -4,6 +4,11 @@ import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg._
 
+//Este objeto representa el Monitor, el cual tiene como objetivo recibir las coordenas del Position Beacon y el RF
+// Procesar en base a un criterio arbitrario si el paciente se encuentra dentro o fuera de la zona delimitada
+// Y comunicarlo al Relay
+
+
 object ApiPosicionListener {
   val activeMqUrl: String = "tcp://localhost:61616"
   def main(args: Array[String]): Unit = {
@@ -21,22 +26,24 @@ object ApiPosicionListener {
     val listener = new MessageListener {
       def onMessage(message: Message): Unit ={
         message match {
-          case text: ObjectMessage => {  //cada mensaje que recibe es un objeto
-            val position = text.getObject.asInstanceOf[PositionMsg]  //recibo el msg de RF
+          case text: ObjectMessage => {
+            val position = text.getObject.asInstanceOf[PositionMsg]
 
-            //aquí falta la lógica del Monitor
               val x = position.x
               val y = position.y
+
+              //se considera el espacio delimitado como un circulo
               val radio =4
-              if(position.nombre == "RF1"){
+              if(position.nombre == "RF"){
                 limit_x = x+radio
                 limit_y = y+radio
               }
               else{
                 var txtMessage = "Fuera"
                 if(x <= limit_x && y<=limit_y){
-                  txtMessage = "Dentro :)"
+                  txtMessage = "Dentro"
                 }
+
                 val cola_Relay = session.createQueue("mqHost2")
                 val productor = session.createProducer(cola_Relay)
                 val response = new ResponseMsg(user=position.nombre, status = txtMessage)

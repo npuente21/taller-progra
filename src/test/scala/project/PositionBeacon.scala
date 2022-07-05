@@ -3,6 +3,9 @@ import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg.PositionMsg
 
+//Este componente simula el dispositivo que tiene cada paciente, el cual está encargado de enviar asincronamente
+//Las coordenadas del paciente al Monitor
+
 case object PositionBeacon{
   val activeMqUrl: String = "tcp://localhost:61616"
   val r = new scala.util.Random(100)
