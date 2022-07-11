@@ -3,6 +3,7 @@ package project
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
 import project.Msg._
+import scala.math.pow
 
 //Este objeto representa el Monitor, el cual tiene como objetivo recibir las coordenas del Position Beacon y el RF
 // Procesar en base a un criterio arbitrario si el paciente se encuentra dentro o fuera de la zona delimitada
@@ -21,8 +22,8 @@ object ApiPosicionListener {
     val cola = session.createQueue("mqHost1")
 
     val consumidor = session.createConsumer(cola)
-    var limit_x = 0
-    var limit_y=0
+    var center_x = 0
+    var center_y=0
     val listener = new MessageListener {
       def onMessage(message: Message): Unit ={
         message match {
@@ -35,12 +36,13 @@ object ApiPosicionListener {
               //se considera el espacio delimitado como un circulo
               val radio =4
               if(position.nombre == "RF"){
-                limit_x = x+radio
-                limit_y = y+radio
+                center_x = x
+                center_y = y
+                println(s"El centro del circulo es ($center_x, $center_y)")
               }
               else{
                 var status = "Fuera"
-                if(x <= limit_x && y<=limit_y){
+                if((pow(x-center_x,2)+pow(y-center_y,2))<=pow(radio,2)){
                   status = "Dentro"
                 }
                 println("El paciente se encuentra "+status)
@@ -53,7 +55,7 @@ object ApiPosicionListener {
                 }
               }
               println(s"Mensaje recibido por parte de : " + position.nombre)
-            println(s"Los límites son ($limit_x, $limit_y)")
+
           }
 
 

@@ -20,7 +20,7 @@ case object RF {
     val session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
     val cola = session.createQueue("mqHost1")
     val productor = session.createProducer(cola)
-    val x = 0
+    val x = 5
     val y =8
     val limit_time = 5
     val now = Calendar.getInstance()
@@ -29,6 +29,7 @@ case object RF {
     while (n<100){
       val now = Calendar.getInstance()
       val segundo_actual = now.get(Calendar.SECOND)
+
       if ((segundo_actual-segundo).abs == limit_time && (segundo<(60-limit_time))){
 
         val ObjMessage = new PositionMsg(nombre="RF", x, y)
