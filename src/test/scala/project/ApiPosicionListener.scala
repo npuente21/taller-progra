@@ -39,16 +39,18 @@ object ApiPosicionListener {
                 limit_y = y+radio
               }
               else{
-                var txtMessage = "Fuera"
+                var status = "Fuera"
                 if(x <= limit_x && y<=limit_y){
-                  txtMessage = "Dentro"
+                  status = "Dentro"
                 }
-
-                val cola_Relay = session.createQueue("mqHost2")
-                val productor = session.createProducer(cola_Relay)
-                val response = new ResponseMsg(user=position.nombre, status = txtMessage)
-                val ObjMessage = session.createObjectMessage(response)
-                productor.send(ObjMessage)
+                println("El paciente se encuentra "+status)
+                if (status == "Fuera"){
+                  val cola_Relay = session.createQueue("mqHost2")
+                  val productor = session.createProducer(cola_Relay)
+                  val response = new PositionMsg(nombre=position.nombre, x  = position.x , y= position.y)
+                  val ObjMessage = session.createObjectMessage(response)
+                  productor.send(ObjMessage)
+                }
               }
               println(s"Mensaje recibido por parte de : " + position.nombre)
             println(s"Los límites son ($limit_x, $limit_y)")

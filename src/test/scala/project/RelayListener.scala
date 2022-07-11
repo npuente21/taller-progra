@@ -2,7 +2,7 @@ package project
 
 import javax.jms._
 import org.apache.activemq.ActiveMQConnectionFactory
-import project.Msg.ResponseMsg
+import project.Msg.PositionMsg
 
 //Este componente tiene como funcionalidad recibir el mensaje proporcionado por el monitor y
 //Redistribuirlo a las distintas áreas del hospital
@@ -24,7 +24,7 @@ object RelayListener {
       def onMessage(message: Message): Unit ={
         message match {
           case msg: ObjectMessage => {
-            val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
+            val StatusMsg = msg.getObject.asInstanceOf[PositionMsg]
             println("Mensaje redirigido")
             var lista:List[String] = List ("mqHost3", "mqHost4", "mqHost5")
             lista.foreach(

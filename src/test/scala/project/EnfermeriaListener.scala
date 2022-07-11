@@ -24,8 +24,8 @@ object EnfermeriaListener {
       def onMessage(message: Message): Unit ={
         message match {
           case msg: ObjectMessage => {
-            val StatusMsg = msg.getObject.asInstanceOf[ResponseMsg]
-            println(s"Mensaje recibido en Enfermeria, el paciente ${StatusMsg.user} se encuentra ${StatusMsg.status} del área delimitada")
+            val StatusMsg = msg.getObject.asInstanceOf[PositionMsg]
+            println(s"Mensaje recibido en Enfermeria, el paciente ${StatusMsg.nombre} se encuentra fuera del área delimitada")
           }
           case _ => {
             throw new Exception("Error desconocido")
